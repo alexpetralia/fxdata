@@ -1,0 +1,12 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: fx.celo0ihze64w.us-east-1.rds.amazonaws.com
+      user: postgres
+      pass: "[PLACEHOLDER]"
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1

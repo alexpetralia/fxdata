@@ -1,0 +1,30 @@
+version: '3'
+services:
+  airflow:
+    image: puckel/docker-airflow
+    volumes:
+      - ./airflow:/usr/local/airflow/dags
+    ports:
+      - "8080:8080"
+
+  singer:
+    build:
+      context: ./singer
+      args:
+        AWS_PG_PASSWORD: ${AWS_PG_PASSWORD}
+
+  dbt:
+    build:
+      context: .
+      dockerfile: ./dbt/Dockerfile
+      args:
+        AWS_PG_PASSWORD: ${AWS_PG_PASSWORD}
+
+  metabase:
+    image: metabase/metabase
+    volumes:
+      - ~/metabase-data:/metabase-data
+    environment:
+      - MB_DB_FILE=/metabase-data/metabase.db
+    ports:
+      - "3000:3000"
